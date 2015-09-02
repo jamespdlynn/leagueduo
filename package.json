@@ -1,0 +1,37 @@
+{
+  "name": "leagueduo",
+  "subdomain": "leagueduo",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha spec",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamespdlynn/leagueduo.git"
+  },
+  "author": "James Lynn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamespdlynn/leagueduo/issues"
+  },
+  "homepage": "https://github.com/jamespdlynn/league",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "body-parser": "^1.13.1",
+    "konfig": "^0.2.1",
+    "less-middleware": "^2.0.1",
+    "mongoose": "^4.1.4",
+    "request-promise": "^0.4.3"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "expectations": "^0.5.1",
+    "mocha": "^2.3.0"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "default": {
+    "api_root" : "https://region.api.pvp.net/api/lol/region",
+    "api_key" : "19f888ac-2ee3-46a1-bcd9-1612d17cb3fc"
+  }
+
+}
