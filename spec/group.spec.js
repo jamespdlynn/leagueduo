@@ -41,11 +41,6 @@ describe('Group Controller', function(){
 
 	describe("fetch", function(){
 
-		//wait half a second to ensure prior group has been saved to db
-		before(function(done){
-			setTimeout(done, 500);
-		});
-
 		it("returns group model from database", function(){
 			return GroupController.fetchGroup(names, region).then(function(value){
 				expect(value).toBeDefined();

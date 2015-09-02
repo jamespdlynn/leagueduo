@@ -4,56 +4,73 @@ var request = require('request-promise');
 
 var MatchController = {
 
-	fetchMatch : function(matchId){
-		return Match.findBydId(matchId).exec();
+	fetchMatch : function(matchId, region){
+		return Match.findById(matchId).exec().then(function(match){
+			//returns either cached group or another promise which returns a new group in turn
+			return match ? match : MatchController.createMatch(matchId, region);
+		});
 	},
 
-	createMatch : function(matchId, summoners, region){
-
-		//convert summoners to id array if necessary
-		if (summoners.length && typeof(summoners[0]) === 'object'){
-			summoners = summoners.map(function(summoner){
-				return summoner.id;
-			});
-		}
+	createMatch : function(matchId, region){
 
 		var uri = config.riot.api_root.replace(/region/g, region) +
-		'/v2.2/match/'+matchId +
-		'?api_key=' + config.riot.api_key;
+			'/v2.2/match/'+matchId +
+			'?api_key=' + config.riot.api_key;
 
 		return request({uri: uri, transform: JSON.parse}).then(function(res) {
 
-			//filter participants array
-			var filteredParticipants = [];
+			//copy participant identity data to identity array
 			res.participantIdentities.forEach(function(identity) {
-				//if this participant is included in the summoners argument, then copy over the identity data and save
-				if (~summoners.indexOf(identity.player.summonerId)){
-					var participant = res.participants.find({participantId: identity.participantId});
-					participant.summonerId = identity.player.summonerId;
-					participant.matchHistoryUri = identity.player.matchHistoryUri;
-					filteredParticipants.push(participant);
-				};
+				var participant = res.participants.find({participantId: identity.participantId});
+				participant.summonerId = identity.player.summonerId;
+				participant.matchHistoryUri = identity.player.matchHistoryUri;
 			});
 
-			if (filteredParticipants.length < summoners.length){
-				throw {statusCode:400, message:"Match did not contain all the summoner identifiers passed to function"};
-			}
-
-			res.participants = filteredParticipants;
-
-			var match = new Match(res);
-
-			//no need to wait to see if save is successful
-			match.save(function(err){
-				if (err) console.error(err);
-			});
-
-			return match;
+			return new Match(res).save();
 		});
 	},
 
 	removeMatch : function(matchId){
 		return Match.findByIdAndRemove(matchId).exec();
+	},
+
+	updateGroupMatches : function(group){
+		return group.getMostRecentMatch()
+
+			.then(function(match){
+				var beginTime = match ? match.matchCreation+1 : 0;
+				var promises = [];
+				group.summoners.forEach(function(summoner){
+					var promise = MatchController.retrieveSummonerMatchIds(summoner.id, group.region, beginTime);
+					promises.push(promise);
+				})
+				return Promise.all(promises);
+			})
+
+			.then(function(matchIdsList){
+
+				var sharedMatchIds = matchIdsList[0];
+				for (var i=1; i < matchIdsList.length; i++){
+					sharedMatchIds = sharedMatchIds.intersect(matchIdsList[i]);
+				}
+
+				if (!sharedMatchIds.length){
+					return Promise.resolve([]);
+				}
+
+				var promises = [];
+				sharedMatchIds.forEach(function(matchId){
+					var promise = MatchController.fetchMatch(matchId, group.region);
+					promises.push(promise);
+				})
+
+				return Promise.all(promises);
+			})
+
+			.then(function(matches){
+				group.matches = group.matches.concat(matches);
+				return group.update();
+			});
 	},
 
 	/**
@@ -66,16 +83,17 @@ var MatchController = {
 	retrieveSummonerMatchIds: function(summonerId, region, beginTime){
 
 		var uri = config.riot.api_root.replace(/region/g, region) +
-			'/v2.2/matchlist/by-summoner/' + summonerId
-			'?beginTime=' + beginTime || 0 +
+			'/v2.2/matchlist/by-summoner/' + summonerId +
+			'?beginTime=' + (beginTime || 0) +
 			'&api_key=' + config.riot.api_key;
 
 		return request({uri: uri, transform: JSON.parse}).then(function(res){
 			return res.matches.map(function(match){
-				return match.id;
+				return match.matchId;
 			});
 		});
-	}
+
+	},
 
 };
 

@@ -1,6 +1,5 @@
-var Q = require('q');
+var Promise = require('bluebird');
 var mongoose = require('mongoose');
-var Group = require('../models/group');
 var schema = new mongoose.Schema({
 
 	_id : String,
@@ -32,13 +31,13 @@ schema.pre('save', function(next){
 
 schema.method('getMostRecentMatch', function(){
 	if (!this.matches || !this.matches.length) {
-		return null;
+		return Promise.resolve(null);
 	}
 
 	return this.populate({path:'matches', select:'matchCreation'}).execPopulate()
 		.then(function(group){
-			return group.matches.min(function(match1, match2){
-				return  match1.matchCreation < match2.matchCreation ? match1 : match2;
+			return group.matches.max(function(match1, match2){
+				return  match1.matchCreation > match2.matchCreation ? match1 : match2;
 			});
 		});
 });
@@ -58,7 +57,7 @@ schema.static('findBySummoners', function(summoners,region){
  * @returns {Promise.<Group,Error>}
  */
 schema.static('removeBySummoners', function(summoners,region){
-	return this.findByIdAndRemove(toId(summoners,region)).exec();
+	this.findByIdAndRemove(toId(summoners,region)).exec();
 });
 
 module.exports = mongoose.model('Group', schema);

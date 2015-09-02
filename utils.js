@@ -34,6 +34,13 @@ Array.prototype.max = function(comparer) {
 	return v;
 };
 
+Array.prototype.intersect = function(array) {
+	return this.filter(function(value){
+		return ~array.indexOf(value);
+	});
+};
+
+
 /* jshint ignore:start */
 Array.prototype.find = function (match) {
 	'use strict';

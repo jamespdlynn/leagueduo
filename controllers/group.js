@@ -38,24 +38,19 @@ var GroupController = {
 					summoners.push(res[key]);
 				});
 
-				//if all summoners requested are not in the array, then throw an error instead
-				if (summoners.length < summonerNames.length) {
+				if (summoners.length >= summonerNames.length) {
+					//create new group model with data
+					return new Group({
+						summoners: summoners,
+						region: region
+					}).save();
+				}
+				else{
+					//if all summoners requested are not in the array, then throw an error instead
 					throw {statusCode: 404, message: 'Invalid summoner name'};
 				}
 
-				//create new group model with data
-				var group = new Group({
-					summoners: summoners,
-					region: region
-				});
 
-				//caching in the database isn't necessarily required, so we won't bother waiting to see if it succeeds
-				group.save(function (err) {
-					if (err) {
-						console.error(err);
-					}
-				});
-				return group;
 			});
 	},
 

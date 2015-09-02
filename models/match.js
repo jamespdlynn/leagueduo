@@ -14,11 +14,11 @@ var schema = new mongoose.Schema({
 		matchHistoryUri : String,
 		championId : Number,
 		highestAchievedSeasonTier : String,
-		runes : Number,
 		spell1Id : Number,
 		spell2Id : Number,
 		stats : Object,
-		timeline : Object
+		timeline : Object,
+		teamId : Number
 	}],
 
 	platformId : String,
@@ -31,9 +31,9 @@ var schema = new mongoose.Schema({
 
 
 schema.virtual('matchId').get(function(){
-	return this.id;
+	return this._id;
 }).set(function(value){
-	this.id = value;
+	this._id = value;
 });
 
 
