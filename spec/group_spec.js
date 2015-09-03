@@ -1,15 +1,15 @@
 require('../utils');
 
-var GroupController = require('../controllers/group');
+var GroupController = require('../controllers/group_controller');
 
 var names = config.test.summoner_names;
 var region = config.test.region;
-var invalidId = config.test.invalid_id;
+var invalidId = config.test.invalid_id+'';
 var group;
 
 describe('Group Controller', function(){
 
-	describe("create", function(){
+	describe("createGroup", function(){
 
 		//remove test group if already exists
 		before(function(){
@@ -29,9 +29,16 @@ describe('Group Controller', function(){
 				});
 		});
 
-
 		it("returns 404 status error", function(){
 			return GroupController.createGroup([invalidId], region)
+				.catch(function(err){
+					expect(err).toBeDefined();
+					expect(err.statusCode).toEqual(404);
+				});
+		})
+
+		it("also returns 404 status error", function(){
+			return GroupController.createGroup(names.concat(invalidId), region)
 				.catch(function(err){
 					expect(err).toBeDefined();
 					expect(err.statusCode).toEqual(404);
@@ -39,24 +46,22 @@ describe('Group Controller', function(){
 		});
 	}),
 
-	describe("fetch", function(){
+	describe("fetchGroup", function(){
 
 		it("returns group model from database", function(){
-			return GroupController.fetchGroup(names, region).then(function(value){
-				expect(value).toBeDefined();
-				expect(value.id).toEqual(group.id);
-			});
-		});
-
-
-		it("returns 404 status error", function(){
-			return GroupController.fetchGroup(names.concat(invalidId), region)
-				.catch(function(err){
-					expect(err).toBeDefined();
-					expect(err.statusCode).toEqual(404);
+			return GroupController.fetchGroup(names, region)
+				.then(function(value){
+					expect(value).toBeDefined();
+					expect(value.id).toEqual(group.id);
 				});
 		});
 
+		it("returns null", function(){
+			return GroupController.fetchGroup([invalidId], region)
+				.then(function(value){
+					expect(value).toBe(null);
+				});
+		});
 
 	})
 

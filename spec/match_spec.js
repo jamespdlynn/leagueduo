@@ -1,7 +1,7 @@
 require('../utils');
 
-var GroupController = require('../controllers/group');
-var MatchController = require('../controllers/match');
+var GroupController = require('../controllers/group_controller');
+var MatchController = require('../controllers/match_controller');
 
 var region = config.test.region;
 var summonerNames = config.test.summoner_names;
@@ -60,15 +60,21 @@ describe('Match Controller', function(){
 			});
 		});
 
+		it("returns null", function(){
+			return MatchController.fetchMatch(invalidId).then(function(value){
+				expect(value).toBe(null);
+			});
+		});
+
 		after(function(){
 			return MatchController.removeMatch(matchId);
 		});
 	});
 
 
-	describe("retrieveSummonerMatchData", function(){
+	describe("retrieveSummonerMatchIds", function(){
 
-		it("returns valid match data list", function(){
+		it("returns valid match id list", function(){
 			return MatchController.retrieveSummonerMatchIds(summonerId, region)
 				.then(function(matchIds){
 					expect(matchIds).toBeDefined();
@@ -100,9 +106,9 @@ describe('Match Controller', function(){
 		});
 
 		it("most recent match should be null", function(){
-			return group.getMostRecentMatch()
+			return group.getMostRecentMatchTime()
 				.then(function(value){
-					expect(value).toBe(null);
+					expect(value).toBe(0);
 				});
 		});
 
@@ -114,9 +120,9 @@ describe('Match Controller', function(){
 		});
 
 		it("most recent match should not be null", function(){
-			return group.getMostRecentMatch()
+			return group.getMostRecentMatchTime()
 				.then(function(value){
-					expect(value).toBeTruthy();
+					expect(value).toBeGreaterThan(0);
 				});
 		});
 

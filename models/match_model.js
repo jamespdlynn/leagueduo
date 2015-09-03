@@ -23,7 +23,7 @@ var schema = new mongoose.Schema({
 
 	platformId : String,
 
-	region : String,
+	region : {type:String, toLowerCase:true},
 
 	season : String
 
@@ -34,6 +34,14 @@ schema.virtual('matchId').get(function(){
 	return this._id;
 }).set(function(value){
 	this._id = value;
+});
+
+schema.set("toJSON", {
+	virtuals : true,
+	transform : function(doc, ret){
+		delete ret._id;
+		return ret;
+	}
 });
 
 

@@ -1,9 +1,9 @@
 {
   "default" : {
     "region" : "na",
-    "summoner_names" : ["Fiddle Me Timber", "Tufton"],
+    "summoner_names" : ["Fiddle Me Timber", "TuftonSunKing"],
     "summoner_id" : 52330916,
     "match_id" : 1926454329,
-    "invalid_id" : "gibberish512!&"
+    "invalid_id" : 99988811111
   }
 }
