@@ -1,4 +1,3 @@
-var Promise = require('bluebird');
 var Group = require('../models/group_model');
 var request = require('request-promise');
 
@@ -16,7 +15,7 @@ var GroupController = {
 
 
 	/**
-	 * Generates, saves and returns new group model through data received through remote API
+	 * Generates, saves and returns new group modelthrough data received through remote API
 	 * @param {string} summonerNames
 	 * @param {string} region
 	 * @return {Promise.<Group,Error>}

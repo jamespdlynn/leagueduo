@@ -22,8 +22,9 @@
   },
   "homepage": "https://github.com/jamespdlynn/league",
   "dependencies": {
-    "bluebird": "^2.9.34",
+    "express": "^4.12.3",
     "body-parser": "^1.13.1",
+    "bluebird": "^2.9.34",
     "konfig": "^0.2.1",
     "less-middleware": "^2.0.1",
     "mongoose": "^4.1.4",

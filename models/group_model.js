@@ -1,4 +1,3 @@
-var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
 
@@ -48,6 +47,7 @@ schema.method('getMostRecentMatchTime', function(){
 });
 
 schema.static('toId', toId);
+schema.static('isValidRegion', isValidRegion);
 
 schema.set("toJSON", {
 	virtuals : true,

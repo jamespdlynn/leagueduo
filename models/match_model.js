@@ -67,4 +67,4 @@ function find(array, match) {
 		return obj;
 	}
 	return null; //No matches found
-};
+}

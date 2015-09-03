@@ -35,7 +35,7 @@ describe('Group Controller', function(){
 					expect(err).toBeDefined();
 					expect(err.statusCode).toEqual(404);
 				});
-		})
+		});;
 
 		it("also returns 404 status error", function(){
 			return GroupController.createGroup(names.concat(invalidId), region)

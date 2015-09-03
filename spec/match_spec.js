@@ -105,7 +105,7 @@ describe('Match Controller', function(){
 			});
 		});
 
-		it("most recent match should be null", function(){
+		it("most recent match time should be 0", function(){
 			return group.getMostRecentMatchTime()
 				.then(function(value){
 					expect(value).toBe(0);
@@ -119,7 +119,7 @@ describe('Match Controller', function(){
 				});
 		});
 
-		it("most recent match should not be null", function(){
+		it("most recent match time should not be 0", function(){
 			return group.getMostRecentMatchTime()
 				.then(function(value){
 					expect(value).toBeGreaterThan(0);

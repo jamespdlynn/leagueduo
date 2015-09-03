@@ -1,10 +1,10 @@
 {
   "default": {
     "mongo_url" : "mongodb://complex:b1llb1ll!@ds041561.mongolab.com:41561/league",
-    "port" : 80
+    "server_port" : 80
   },
 
   "development" : {
-    "port" : 3000
+    "server_port" : 3000
   }
 }

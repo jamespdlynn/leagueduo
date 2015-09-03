@@ -22,7 +22,7 @@ describe('Stats Controller', function(){
 	describe("getSummonerStats", function(){
 
 		it("return summoner stats object with valid data", function(){
-			var stats = StatsController.getSummonerStats(group.matches, group.summoners[0])
+			var stats = StatsController.getSummonerStats(group.matches, group.summoners[0]);;
 			expect(stats).toBeDefined();
 			expect(stats.games).toBeGreaterThan(0);
 			expect(stats.wins + stats.losses).toEqual(stats.games);

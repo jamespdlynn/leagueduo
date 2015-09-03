@@ -1,9 +1,11 @@
 global.config = require('konfig')();
+global.Promise = require('bluebird');
 
 var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+mongoose.Promise = Promise;
 mongoose.connect(config.server.mongo_url);
 
+/* jshint ignore:start */
 Array.prototype.min = function() {
 	return Math.min.apply(null, this);
 };
@@ -22,8 +24,6 @@ Array.prototype.prepend = function(array) {
 	return Array.prototype.unshift.apply(this, array);
 };
 
-
-/* jshint ignore:start */
 Array.prototype.find = function (match) {
 	'use strict';
 	var obj, key, i = this.length;

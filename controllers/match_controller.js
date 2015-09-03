@@ -1,4 +1,4 @@
-var Promise = require('bluebird');
+
 var Match = require('../models/match_model');
 var request = require('request-promise');
 
@@ -74,7 +74,7 @@ var MatchController = {
 				group.summoners.forEach(function(summoner){
 					var promise = MatchController.retrieveSummonerMatchIds(summoner.id, group.region, ++beginTime);
 					promises.push(promise);
-				})
+				});;
 				return Promise.all(promises);
 			})
 
@@ -95,7 +95,7 @@ var MatchController = {
 				sharedMatchIds.forEach(function(matchId){
 					var promise = MatchController.createMatch(matchId, group.region);
 					promises.push(promise);
-				})
+				});;
 
 				return Promise.all(promises);
 			})
