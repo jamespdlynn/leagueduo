@@ -11,6 +11,7 @@ putting releasing the app for mass consumption. The overall structure of the cod
   * npm test
 
 #### Run Grunt Build
+	* npm install -g grunt-cli
   * npm run build
 
 ## How it works in a nutshell

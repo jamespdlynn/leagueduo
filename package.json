@@ -33,7 +33,6 @@
     "errorhandler": "^1.4.2",
     "expectations": "^0.5.1",
     "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-less": "^1.0.1",
