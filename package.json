@@ -8,7 +8,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --require expectations spec",
+    "test": "node ./node_modules/mocha/bin/mocha --require expectations spec",
+    "build": "grunt",
     "start": "node server.js"
   },
   "repository": {
