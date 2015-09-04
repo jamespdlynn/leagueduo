@@ -1,6 +1,6 @@
-require('../utils');
+require('../server/utils');
 
-var GroupController = require('../controllers/group_controller');
+var GroupController = require('../server/controllers/group_controller');
 
 var names = config.test.summoner_names;
 var region = config.test.region;

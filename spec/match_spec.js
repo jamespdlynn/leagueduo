@@ -1,7 +1,7 @@
-require('../utils');
+require('../server/utils');
 
-var GroupController = require('../controllers/group_controller');
-var MatchController = require('../controllers/match_controller');
+var GroupController = require('../server/controllers/group_controller');
+var MatchController = require('../server/controllers/match_controller');
 
 var region = config.test.region;
 var summonerNames = config.test.summoner_names;

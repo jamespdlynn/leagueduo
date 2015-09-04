@@ -1,8 +1,8 @@
-require('../utils');
+require('../server/utils');
 
-var express = require('express')
-var router = require('../controllers/router');
+var express = require('express');
 var request = require('request-promise');
+var router = require('../server/router');
 
 var app = express()
 router(app);

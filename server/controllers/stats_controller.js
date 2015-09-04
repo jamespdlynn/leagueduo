@@ -25,6 +25,8 @@ var StatsController = {
 				stats.deaths += participant.stats.deaths;
 				stats.assists += participant.stats.assists;
 				participant.stats.winner ? stats.wins++ : stats.losses++;
+
+				//TODO grab stats filtered by each champion and role played with
 			}
 
 		});

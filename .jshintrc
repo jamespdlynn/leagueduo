@@ -1,0 +1,22 @@
+{
+  "node": true,
+  "esnext": true,
+  "bitwise": true,
+  "camelcase": false,
+  "curly": false,
+  "eqeqeq": false,
+  "immed": true,
+  "indent": 4,
+  "predef" : ["window","document","define","angular","require","config","beforeEach","expect","localStorage","Events"],
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "plusplus": true,
+  "undef": true,
+  "unused": true,
+  "strict": false,
+  "trailing": true,
+  "smarttabs": true,
+  "white": true
+}

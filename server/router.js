@@ -1,9 +1,9 @@
 var util = require('util');
 
-var GroupController = require('./group_controller');
-var MatchController = require('./match_controller');
-var StatsController = require('./stats_controller');
-var Group = require('../models/group_model');
+var GroupController = require('./controllers/group_controller');
+var MatchController = require('./controllers/match_controller');
+var StatsController = require('./controllers/stats_controller');
+var Group = require('./models/group_model');
 
 module.exports = function(app) {
 

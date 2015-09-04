@@ -9,6 +9,7 @@ var MatchController = {
 	 * @returns {Promise.<Match,Error>}
 	 */
 	fetchMatch : function(matchId){
+		'use strict';
 		return Match.findById(matchId).exec();
 	},
 
@@ -19,7 +20,7 @@ var MatchController = {
 	 * @returns {Promise.<Match,Error>}
 	 */
 	createMatch : function(matchId, region){
-
+		'use strict';
 		//Check if match already exists in database first
 		return this.fetchMatch(matchId, region).then(function(match){
 
@@ -55,6 +56,7 @@ var MatchController = {
 	 * @returns {Promise.<Match,Error>}
 	 */
 	removeMatch : function(matchId){
+		'use strict';
 		return Match.findByIdAndRemove(matchId).exec();
 	},
 
@@ -64,7 +66,7 @@ var MatchController = {
 	 * @returns {Promise.<Group,Error>}
 	 */
 	updateGroupMatches : function(group){
-
+		'use strict';
 		//Get the most recent match creation time to determine where to begin search for matches from
 		return group.getMostRecentMatchTime()
 
@@ -115,6 +117,8 @@ var MatchController = {
 	 * @returns {Promise.<[Number],Error}
 	 */
 	retrieveSummonerMatchIds: function(summonerId, region, beginTime){
+
+		'use strict';
 
 		var uri = config.riot.api_root.replace(/region/g, region) +
 			'/v2.2/matchlist/by-summoner/' + summonerId +

@@ -6,5 +6,9 @@
 
   "development" : {
     "server_port" : 3000
+  },
+
+  "production" : {
+    "server_port" : 80
   }
 }

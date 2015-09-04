@@ -2,15 +2,15 @@
  * Node JS Server
  * @author James Lynn
  */
-require('./utils');
+require('./server/utils');
 
 var path = require('path');
 var express = require('express');
-var router = require('./controllers/router');
+var router = require('./server/router');
 
 var app = express();
 
-app.set('env', process.env.NODE_ENV);
+app.set('env', process.env.NODE_ENV || 'production');
 app.set('port', config.server.server_port);
 
 switch (app.get('env')) {
@@ -34,7 +34,7 @@ switch (app.get('env')) {
 	case 'production':
 	default :
 		var compression = require('compression');
-		app.use(compression);
+		app.use(compression());
 
 		app.use(express.static(path.join(__dirname,'dist')));
 		break;

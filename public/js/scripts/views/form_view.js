@@ -1,5 +1,5 @@
-define(['underscore','backbone','txt!tpl/form.html','bootstrap'],
-	function (_, Backbone, formTpl) {
+define(['jquery','underscore','backbone','txt!tpl/form.html','bootstrap'],
+	function ($, _, Backbone, formTpl) {
 		'use strict';
 
 		var FormView = Backbone.View.extend({
