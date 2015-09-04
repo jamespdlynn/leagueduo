@@ -23,15 +23,14 @@
   "homepage": "https://github.com/jamespdlynn/league",
   "dependencies": {
     "express": "^4.12.3",
-    "body-parser": "^1.13.1",
     "bluebird": "^2.9.34",
     "konfig": "^0.2.1",
-    "less-middleware": "^2.0.1",
     "mongoose": "^4.1.4",
     "request-promise": "^0.4.3"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
+    "less-middleware": "^2.0.1",
+    "errorhandler": "^1.4.2",
     "expectations": "^0.5.1",
     "mocha": "^2.3.0"
   }

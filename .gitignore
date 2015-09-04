@@ -1,7 +1,4 @@
 .idea/*
 *.iml
-node_modules/*
-style.css
-dist/*
-build
 *.log
+public/css/*.css

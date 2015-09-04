@@ -24,6 +24,7 @@ Array.prototype.prepend = function(array) {
 	return Array.prototype.unshift.apply(this, array);
 };
 
+
 Array.prototype.find = function (match) {
 	'use strict';
 	var obj, key, i = this.length;
@@ -37,5 +38,10 @@ Array.prototype.find = function (match) {
 		return obj;
 	}
 	return null; //No matches found
+};
+
+
+String.prototype.toKey = function(){
+	return this.toLowerCase().replace(/\s/g, '');
 };
 /* jshint ignore:end */

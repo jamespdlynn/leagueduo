@@ -1,0 +1,46 @@
+<div id="form" class="view">
+
+
+
+    <div class="row">
+        <div class="col-xs-4 form-group">
+            <input type="text" class="form-control" id="summonerInput1" value="<%= summoners[0] %>" placeholder="Enter Summoner 1" title="Enter Summoner Name 1" maxlength="20">
+        </div>
+
+        <div class="col-xs-4">
+            <div class="button-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Region">
+                    <%= availableRegions[region] %> <span class="caret"></span>
+                </button>
+                <ul id="regionDropdown" class="dropdown-menu">
+                    <% Object.keys(availableRegions).forEach(function(key){  %>
+                    <li><a class="region" role="menuitem" data-value="<%= key %>"> <%= availableRegions[key] %> </a></li>
+                    <%  }); %>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-4 form-group">
+            <input type="text" class="form-control" id="summonerInput2" value="<%= summoners[1] %>" placeholder="Enter Summoner 2" title="Enter Summoner Name 2" maxlength="20">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <button id="submit" class="btn btn-lg btn-primary" <% if (!summoners[0].length || !summoners[1].length){ %> disabled="disabled" <% } %>>
+                Get Stats!
+            </button>
+        </div>
+    </div>
+
+    <% if (errorMessage) { %>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div class="alert alert-danger" role="alert">
+                    <%= errorMessage %>
+                </div>
+            </div>
+        </div>
+    <%  } %>
+
+</div>

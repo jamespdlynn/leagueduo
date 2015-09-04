@@ -103,9 +103,7 @@ var MatchController = {
 			.then(function(matches){
 				//Finally update the group with the newly obtained match models
 			    group.matches.prepend(matches);
-				return group.update().then(function(){
-					return group;
-				});
+				return group.save();
 			});
 	},
 

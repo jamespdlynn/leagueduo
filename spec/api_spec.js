@@ -1,12 +1,10 @@
 require('../utils');
 
 var express = require('express')
-var bodyParser = require('body-parser');
 var router = require('../controllers/router');
 var request = require('request-promise');
 
 var app = express()
-app.use(bodyParser.json());
 router(app);
 
 var port = config.test.server_port;
@@ -15,54 +13,48 @@ var region = config.test.region;
 var invalidId = config.test.invalid_id+'';
 var rootURL = 'http://localhost:'+port;
 
-describe('API Test', function(){
+describe('API', function(){
+
+	this.timeout(100000);
 
 	//begin listening on test port
 	before(function(done){
 		app.listen(port, done);
 	});
 
-	describe("POST /", function(){
-
-		var options = {
-			uri:rootURL+'/',
-			method:'POST',
-			json : true
-		};
+	describe("GET /stats", function(){
 
 		it("returns valid group statistics data", function(){
 
-			options.body = {
-				summoners : names,
-				region : region
-			};
+			var uri = rootURL + '/stats' +
+				'?summoners=' + encodeURIComponent(names) +
+				'&region=' + region;
 
-			return request(options).then(function(res){
+			return request({uri:uri, json:true}).then(function(res){
 				expect(res).toBeDefined();
 				expect(res.stats).toBeDefined();
-				expect(res.stats.length).toEqual(names.length+1);
+				expect(res.stats.combined).toBeDefined();
 			});
 
 		});
 
-		it("returns 400 status error on invalid region", function(){
-			options.body = {
-				summoners : names,
-				region : invalidId
-			};
+		it("returns 400 status error on missing summoner name", function(){
+			var uri = rootURL + '/stats' +
+				'?region=' + invalidId;
 
-			return request(options).catch(function(err){
+			return request({uri:uri, json:true}).catch(function(err){
 				expect(err).toBeDefined();
 				expect(err.statusCode).toBe(400);
 			});
 		});
 
-		it("returns 400 status error on missing summoner name", function(){
-			options.body = {
-				region : region
-			};
+		it("returns 400 status error on invalid region", function(){
 
-			return request(options).catch(function(err){
+			var uri = rootURL + '/stats' +
+				'?summoners=' + names.join(',') +
+				'&region=' + invalidId;
+
+			return request({uri:uri, json:true}).catch(function(err){
 				expect(err).toBeDefined();
 				expect(err.statusCode).toBe(400);
 			});
@@ -70,12 +62,11 @@ describe('API Test', function(){
 
 		it("returns 404 status error on invalid summoner name", function(){
 
-			options.body = {
-				summoners : [invalidId],
-				region : region
-			};
+			var uri = rootURL + '/stats' +
+				'?summoners=' + invalidId +
+				'&region=' + region;
 
-			return request(options).catch(function(err){
+			return request({uri:uri, json:true}).catch(function(err){
 				expect(err).toBeDefined();
 				expect(err.statusCode).toBe(404);
 			});

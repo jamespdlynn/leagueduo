@@ -9,6 +9,8 @@ var group;
 
 describe('Group Controller', function(){
 
+	this.timeout(10000);
+
 	describe("createGroup", function(){
 
 		//remove test group if already exists

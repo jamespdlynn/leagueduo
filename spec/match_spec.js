@@ -11,6 +11,8 @@ var invalidId = config.test.invalid_id;
 
 describe('Match Controller', function(){
 
+	this.timeout(10000);
+
 	var match;
 
 	describe("createMatch", function(){
@@ -98,14 +100,14 @@ describe('Match Controller', function(){
 
 		var group;
 
-		before(function(){
+		beforeEach(function(){
 			return GroupController.fetchGroup(summonerNames, region).then(function(value){
 				group = value;
-				group.matches = [];
 			});
 		});
 
 		it("most recent match time should be 0", function(){
+			group.matches = [];
 			return group.getMostRecentMatchTime()
 				.then(function(value){
 					expect(value).toBe(0);
@@ -113,6 +115,7 @@ describe('Match Controller', function(){
 		});
 
 		it("group should be appended with new matches", function(){
+			group.matches = [];
 			return MatchController.updateGroupMatches(group)
 				.then(function(){
 					expect(group.matches.length).toBeGreaterThan(0);

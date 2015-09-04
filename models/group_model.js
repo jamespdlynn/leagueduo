@@ -8,7 +8,7 @@ var schema = new mongoose.Schema({
 	matches : [{ type: Number, ref: 'Match' }],
 
 	summoners : [{
-		id : {type:Number, required:true},
+		id : Number,
 		name : {type:String, required:true},
 		profileIconId : Number
 	}]
@@ -16,12 +16,17 @@ var schema = new mongoose.Schema({
 
 schema.pre('save', function(next){
 
-	if (!this.summoners || !this.summoners.length){
-		throw new Error('Group must has at least one summoner attached');
+	if (!this.summoners.length){
+		throw new Error('Group must have at least one summoner attached');
 	}
 
 	//Dynamically set a unique identifier for this document when first created
-	this._id =  this._id || toId(this.summoners, this.region);
+	this._id =  this._id || generateId(this.summoners, this.region);
+
+	//Depopulate matches
+	this.matches = this.matches.map(function(match){
+		return (typeof match==='object') ? match.matchId : match;
+	});
 
 	next();
 });
@@ -46,7 +51,8 @@ schema.method('getMostRecentMatchTime', function(){
 		});
 });
 
-schema.static('toId', toId);
+schema.static('generateId', generateId);
+
 schema.static('isValidRegion', isValidRegion);
 
 schema.set("toJSON", {
@@ -57,7 +63,6 @@ schema.set("toJSON", {
 	}
 });
 
-
 module.exports = mongoose.model('Group', schema);
 
 /**
@@ -65,7 +70,7 @@ module.exports = mongoose.model('Group', schema);
  * @param {string} region
  * @returns {string}
  */
-function toId(summoners, region){
+function generateId(summoners, region){
 	if (!summoners || !summoners.length){
 		return '';
 	}
@@ -75,10 +80,10 @@ function toId(summoners, region){
 		if (typeof summoner === 'object'){
 			summoner = summoner.name;
 		}
-		return summoner.toLowerCase().replace(/\s/g, '');
+		return summoner.toKey();
 	});
 
-	return region + '-' + summoners.sort().join('-');
+	return region.toLowerCase() + '-' + summoners.sort().join('-');
 }
 
 /**
@@ -86,6 +91,6 @@ function toId(summoners, region){
  * @returns {boolean}
  */
 function isValidRegion(region){
-	return ~['na','eune','euw','kr','ln','las','br','oce','ru','tr'].indexOf(region.toLowerCase().trim());
+	return ~['na','eune','euw','kr','ln','las','br','oce','ru','tr'].indexOf(region);
 }
 

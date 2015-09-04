@@ -10,6 +10,8 @@ var group;
 
 describe('Stats Controller', function(){
 
+	this.timeout(10000);
+
 	before(function(){
 		return GroupController.createGroup(names, region)
 			.then(MatchController.updateGroupMatches)
@@ -22,24 +24,41 @@ describe('Stats Controller', function(){
 	describe("getSummonerStats", function(){
 
 		it("return summoner stats object with valid data", function(){
-			var stats = StatsController.getSummonerStats(group.matches, group.summoners[0]);;
-			expect(stats).toBeDefined();
-			expect(stats.games).toBeGreaterThan(0);
-			expect(stats.wins + stats.losses).toEqual(stats.games);
-			expect(stats.kills).toBeGreaterThan(0);
-			expect(stats.deaths).toBeGreaterThan(0);
-			expect(stats.assists).toBeGreaterThan(0);
-		});
-
-		it("returns group stats array with valid data", function(){
-			return StatsController.getGroupStats(group, group.summoners[0])
-
-				.then(function(statsList){
-					expect(statsList).toBeDefined();
-					expect(statsList.length).toEqual(names.length+1);
-					expect(statsList[0].games).toEqual(statsList[1].games);
-					expect(statsList[0].kills).toBeGreaterThan(statsList[1].kills);
-				});
+			return group.populate('matches').execPopulate().then(function(){
+				var stats = StatsController.getSummonerStats(group.matches, group.summoners[0]);
+				expect(stats).toBeDefined();
+				expect(stats.summoner.id).toEqual(group.summoners[0].id);
+				expect(stats.games).toBeGreaterThan(0);
+				expect(stats.wins + stats.losses).toEqual(stats.games);
+				expect(stats.kills).toBeGreaterThan(0);
+				expect(stats.deaths).toBeGreaterThan(0);
+				expect(stats.assists).toBeGreaterThan(0);
+			});
 		});
 	});
+
+	describe("getGroupStats", function(){
+
+		it("returns group stats array with valid data", function(){
+			return StatsController.getGroupStats(group)
+
+				.then(function(statsWrapper){
+					expect(statsWrapper).toBeDefined();
+					expect(Object.keys(statsWrapper).length).toEqual(names.length+1);
+					expect(statsWrapper.combined).toBeDefined();
+					expect(statsWrapper.combined.games).toBeGreaterThan(0);
+
+					names.forEach(function(name){
+						var key = name.toKey();
+						expect(statsWrapper[key]).toBeDefined();
+						expect(statsWrapper[key].summoner).toBeDefined();
+						expect(statsWrapper[key].games).toEqual(statsWrapper.combined.games);
+					});
+				});
+		});
+
+
+	});
+
+
 });
