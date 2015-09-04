@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha --require expectations spec",
-    "build": "grunt",
+    "build": "./node_modules/grunt-cli/bin/grunt",
     "start": "node server.js"
   },
   "repository": {

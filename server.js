@@ -11,7 +11,7 @@ var router = require('./server/router');
 var app = express();
 
 app.set('env', process.env.NODE_ENV || 'production');
-app.set('port', config.server.server_port);
+app.set('port', process.env.PORT || config.server.server_port);
 
 switch (app.get('env')) {
 	//Development Environment
