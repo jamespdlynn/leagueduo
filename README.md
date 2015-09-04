@@ -1,19 +1,19 @@
-## Duo Queue Stats
-
-### Start App
-  * npm start
-
-### Run Mocha Unit Tests
-  * npm test
-
-### Run Grunt Build
-  * npm run build
+# Duo Queue Stats
 
 >I got the idea for this app from a friend who mentioned a lack of being able to find your duo queue stats with a partner within the current online community.
 Please note due to time constraints this is only an early build of the app. I plan on adding more useful data points and giving it a major visual overhaul in the future before
 putting it out for mass consumption. The overall structure of the code base, however, is in place.
 
-# How it works in a nutshell
+#### Start App
+  * npm start
+
+#### Run Mocha Unit Tests
+  * npm test
+
+#### Run Grunt Build
+  * npm run build
+
+## How it works in a nutshell
 
 * Although the client is built specifically for finding statistics between a single summoner and their duo partner; the server is actually more adaptable, and capable of grouping match
 statistics for clusters of anywhere between one and five summoners.
